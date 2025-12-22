@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Lead to Airtable</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Job Lead to Airtable</h1>
+    </header>
+
+    <div id="loadingState" class="loading-state">
+      <div class="spinner"></div>
+      <p>Detecting job data...</p>
+    </div>
+
+    <div id="errorState" class="error-state hidden">
+      <div class="error-icon">⚠️</div>
+      <p id="errorMessage">An error occurred</p>
+      <button id="retryButton" class="button button-secondary">Retry</button>
+    </div>
+
+    <div id="notConfiguredState" class="not-configured-state hidden">
+      <div class="info-icon">⚙️</div>
+      <p>Please configure your Airtable settings first</p>
+      <button id="openSettingsButton" class="button button-primary">Open Settings</button>
+    </div>
+
+    <div id="formState" class="form-state hidden">
+      <!-- Draft indicator -->
+      <div id="draftIndicator" class="draft-indicator hidden">
+        <span>✓ Draft saved</span>
+      </div>
+
+      <!-- Draft restore prompt -->
+      <div id="draftPrompt" class="draft-prompt hidden">
+        <p>Found unsaved changes from earlier. Restore them?</p>
+        <div class="draft-prompt-buttons">
+          <button type="button" id="restoreDraft" class="button button-primary">Restore Draft</button>
+          <button type="button" id="ignoreDraft" class="button button-secondary">Use Fresh Data</button>
+        </div>
+      </div>
+
+      <form id="jobForm">
+        <div class="form-group">
+          <label for="company">
+            Company
+            <span class="confidence-indicator" id="companyConfidence" title="Detection confidence"></span>
+          </label>
+          <input
+            type="text"
+            id="company"
+            name="company"
+            placeholder="Company name"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="jobTitle">
+            Job Title
+            <span class="confidence-indicator" id="jobTitleConfidence" title="Detection confidence"></span>
+          </label>
+          <input
+            type="text"
+            id="jobTitle"
+            name="jobTitle"
+            placeholder="Job title"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="location">
+            Location
+            <span class="confidence-indicator" id="locationConfidence" title="Detection confidence"></span>
+          </label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="Location"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="description">
+            Job Description
+            <span class="confidence-indicator" id="descriptionConfidence" title="Detection confidence"></span>
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Job description..."
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="clearButton" class="button button-secondary">
+            Clear
+          </button>
+          <button type="submit" class="button button-primary">
+            Send to Airtable
+          </button>
+        </div>
+
+        <button type="button" id="openInTabButton" class="button button-secondary open-tab-button">
+          Open in Full Tab →
+        </button>
+      </form>
+
+      <div id="status" class="status hidden"></div>
+
+      <div class="footer-links">
+        <a href="#" id="settingsLink">Settings</a>
+        <span class="divider">•</span>
+        <a href="#" id="helpLink">Help</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../utils/draft-storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
